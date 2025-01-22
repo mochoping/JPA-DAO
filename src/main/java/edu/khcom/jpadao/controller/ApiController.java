@@ -33,10 +33,12 @@ public class ApiController {
     }
 
     // ajax url을 이용해서 DB에 회원 저장하기
+    /*
     @PostMapping("/saveUser") //    /api/saveUser
     public KHTUser saveUser(@RequestBody KHTUser khtUser) {
         return khtUserService.save(khtUser);
     }
+    */
 
     // 모든 제품 조회   /api/products
     @GetMapping("/products") //    /api/products
@@ -120,7 +122,7 @@ public class ApiController {
     }
 
     @PostMapping("/saveUserImage")
-    public KHTUser save(@RequestParam("username")String username,
+    public KHTUser saveUserImage(@RequestParam("username")String username,
                         @RequestParam("password")String password,
                         @RequestParam("file") MultipartFile file) {
         return khtUserService.save(username,password,file);

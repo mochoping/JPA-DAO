@@ -6,6 +6,83 @@
     <title>Title</title>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <link rel="icon" href="/favicon.ico">
+  <style>
+    body {
+      line-height: 1.6;
+      background-color: #f5f5f5;
+      margin: 0;
+      padding: 0;
+    }
+
+    h1 {
+      color: #333;
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    #userList {
+      list-style: none;
+      padding: 20px;
+      margin: 20px auto;
+      max-width: 300px;
+      background-color: #fff;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.16), 0 3px 1px -2px rgba(0, 0, 0, 0.12);
+    }
+
+    #userList li {
+      padding: 10px;
+      border-bottom: 1px solid #ddd;
+    }
+
+    #userList li:last-child {
+      border-bottom: none;
+    }
+
+    form {
+      max-width: 300px;
+      margin: 20px auto;
+      padding: 20px;
+      background: #fff;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.16), 0 3px 1px -2px rgba(0, 0, 0, 0.12);
+    }
+
+    label {
+      display: block;
+      margin-bottom: 10px;
+      color: #666;
+    }
+
+    input {
+      width: 80%;
+      padding: 10px;
+      margin-bottom: 20px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      box-sizing: border-box;
+    }
+
+    button {
+      width: 100%;
+      padding: 10px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      background-color: #007bff;
+      color: #fff;
+    }
+
+    button:hover {
+      background-color: #0056ff;
+    }
+
+    alert {
+      text-align: center;
+    }
+  </style>
 </head>
 <body>
 <h1>유저 등록</h1>
@@ -19,26 +96,65 @@
   <button>등록</button>
 </form>
 <script>
-  $("#userForm").submit(function () {
-    let username = $("#username").val(); // input 내 들어있는 value 값 가져오기
-    let password = $("#password").val();
+  $('#userForm').submit(function (e) {
+    e.preventDefault(); //form 을 제출하기 전에 잠깐 멈추기 상태
+    const username = $('#username').val();
+    const password = $('#password').val();
+    let formData = new FormData();
+    formData.append('username', username);
+    formData.append('password', password);
+    formData.append('file', $('#imagePath')[0].files[0]);
+
     $.ajax({
-      url: "/api/saveUser",
+      url: "/api/saveUserImage",
       method: "POST",
-      contentType: "application/json",
-      data: JSON.stringify({
-        username: username,
-        password: password,
-      }),
-      success: function () {
-        alert("성공적으로 저장되었습니다.");
-        window.location.href = "/user";
-      },
-      error: function () {
-        alert("데이터 등록에 실패했습니다.");
-      }
+      processData: false,
+      contentType: false,
+      data: formData,
+      success:
+              function () {
+                alert("유저가 성공적으로 등록되었습니다.");
+                // 직접적으로 추가
+                $("#userList").append('<li>' + username + '</li>');
+                $('#username').val(''); //작성한 유저네임 value 값 비우기
+                $('#password').val(''); //작성한 비밀번호 value 값 비우기
+              },
+      error:
+              function () {
+                alert("유저 등록에 실패했습니다.");
+              }
     })
-  });
+  })
+</script>
+
+<script>
+  const usernameRegex = /^[a-zA-Z0-9]{5,15}$/;
+  const passwordRegex = /^(?=.[A-Za-z])(?=.\\d)[A-Za-z\\d]{8,}$/;
+
+  // 빈칸인지 빈칸이 아닌지
+  if (!username) {
+    alert("등록하고자 하는 아이디를 작성하세요.");
+    // return;
+  }
+  if (!password) {
+    alert("비밀번호를 작성하세요.");
+    //return;
+  }
+  // 정규식에 일치하게 작성했는지
+  /*
+  if (!usernameRegex.test(username)) {
+      alert("아이디는 5~15자 영문 및 숫자로만 작성해야합니다.");
+      return;
+  }
+  if (!passwordRegex.test(password)) {
+      alert("비밀번호는 최소 8자, 하나 이상의 문자 및 숫자를 포함해야합니다.");
+      return;
+  }
+  */
+
+
+  // 동일한 아이디가 존재하는지
+
 
 </script>
 </body>
