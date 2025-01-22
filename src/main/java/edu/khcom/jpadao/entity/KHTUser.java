@@ -1,4 +1,4 @@
-package edu.khcom.jpadao.dao;
+package edu.khcom.jpadao.entity;
 
 
 import jakarta.persistence.*;
@@ -20,4 +20,7 @@ public class KHTUser {
 
     @Column(unique=false, nullable=false)
     private String password;
+
+    @Column(unique = false, nullable = false)
+    private String imagePath;
 }

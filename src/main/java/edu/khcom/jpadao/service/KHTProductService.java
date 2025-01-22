@@ -1,7 +1,7 @@
 package edu.khcom.jpadao.service;
 
 
-import edu.khcom.jpadao.dao.KHTProduct;
+import edu.khcom.jpadao.entity.KHTProduct;
 import edu.khcom.jpadao.repository.KHTProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

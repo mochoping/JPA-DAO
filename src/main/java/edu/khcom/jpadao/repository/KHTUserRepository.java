@@ -1,7 +1,7 @@
 package edu.khcom.jpadao.repository;
 
 
-import edu.khcom.jpadao.dao.KHTUser;
+import edu.khcom.jpadao.entity.KHTUser;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 /*
@@ -24,4 +24,7 @@ public interface KHTUserRepository extends JpaRepository<KHTUser, Long> {
 
     // 이용해서 상세보기
     KHTUser findById(int id);
+
+    // 유저 프로필 이미지와 함께 저장
+    KHTUser save(KHTUser khtUser);
 }

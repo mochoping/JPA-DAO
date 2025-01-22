@@ -1,4 +1,4 @@
-package edu.khcom.jpadao.dao;
+package edu.khcom.jpadao.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

@@ -1,6 +1,6 @@
 package edu.khcom.jpadao.repository;
 
-import edu.khcom.jpadao.dao.KHTProduct;
+import edu.khcom.jpadao.entity.KHTProduct;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

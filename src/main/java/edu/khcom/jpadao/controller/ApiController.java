@@ -1,13 +1,16 @@
 package edu.khcom.jpadao.controller;
 
 
-import edu.khcom.jpadao.dao.KHTProduct;
-import edu.khcom.jpadao.dao.KHTUser;
+import edu.khcom.jpadao.entity.KHTBook;
+import edu.khcom.jpadao.entity.KHTProduct;
+import edu.khcom.jpadao.entity.KHTUser;
+import edu.khcom.jpadao.service.KHTBookService;
 import edu.khcom.jpadao.service.KHTProductService;
 import edu.khcom.jpadao.service.KHTService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 @Slf4j
@@ -18,6 +21,8 @@ public class ApiController {
     private KHTService khtUserService;
     @Autowired
     private KHTProductService khtProductService;
+    @Autowired
+    private KHTBookService khtBookService;
 
     // ajax url 을 이용해서 DB에 저장된 DB 불러오기
     @GetMapping("/users")//    /api/users
@@ -78,5 +83,46 @@ public class ApiController {
         log.info(khtProduct.toString());
         return khtProduct;
     }
+    @GetMapping("/books")
+    public List<KHTBook> books() {
+        return khtBookService.findAll();
+    }
 
+    @GetMapping("/book/{id}")  //id 조회
+    public KHTBook book(@PathVariable("id") int id) {
+        return khtBookService.findById(id);
+    }
+
+    // 405 (Method Not Allowed) GET 으로는 DB 저장 X
+    // Request method 'POST' is not supported
+    // 기본 글자 타입만 한번에 저장하기
+
+    /*
+     *
+      * @param khtBook = Body = 통째로 바디 내 세부 설정없이 한번에 가져온 그대로 저장
+     *
+     * @return = 저장역활하는 save 로 데이터 그대로 전달
+     */
+    /*
+    @PostMapping("/bookSave")
+    public KHTBook saveBook(@RequestBody KHTBook khtBook) {
+        KHTBook savedBook = khtBookService.save(khtBook);
+        log.info(savedBook.toString());
+        return savedBook;
+    }
+     */
+    @PostMapping("/bookSaveImg")
+    public KHTBook saveBookImg(@RequestParam("title") String title,
+                               @RequestParam("author") String author,
+                               @RequestParam("genre") String genre,
+                               @RequestParam("file") MultipartFile file) {
+        return khtBookService.save(title, author,genre,file);
+    }
+
+    @PostMapping("/saveUserImage")
+    public KHTUser save(@RequestParam("username")String username,
+                        @RequestParam("password")String password,
+                        @RequestParam("file") MultipartFile file) {
+        return khtUserService.save(username,password,file);
+    }
 }
